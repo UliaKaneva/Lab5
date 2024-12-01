@@ -3,8 +3,8 @@
 using namespace std;
 
 int main(){
-    binary_int a(-1);
-    binary_int b(-1);
+    binary_int a(-2);
+    binary_int b(-2);
     binary_int c;
 
     // Присваивание

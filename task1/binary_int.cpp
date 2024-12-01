@@ -20,20 +20,29 @@ binary_int& binary_int::operator=(const binary_int &num) {
     return *this;
 }
 binary_int binary_int::operator+(const binary_int& num) const{
-    binary_int res;
-    int a = num.number;
-    int b = number;
+    binary_int res(*this);
+    res += num;
+    return res;
+
+}
+binary_int& binary_int::operator+=(const binary_int &num) {
+    int a = number;
+    int b = num.number;
     int carry = 0;
     while (b != 0) {
         carry = a & b;
         a ^= b;
         b = carry << 1;
     }
-    res.number = a;
-    return res;
+    number = a;
+    return *this;
 }
 binary_int binary_int::operator-(const binary_int& num) const{
     return (*this) + (-num);
+}
+binary_int& binary_int::operator-=(const binary_int& num){
+    *this += -num;
+    return *this;
 }
 binary_int& binary_int::operator++() {
     int nums = 1;
@@ -74,18 +83,6 @@ binary_int binary_int::operator-() const {
     return res;
 }
 
-binary_int& binary_int::operator+=(const binary_int &num) {
-    binary_int res = num + *this;
-    number = res.number;
-    return *this;
-}
-
-binary_int& binary_int::operator-=(const binary_int& num){
-    binary_int res = *this - num;
-    number = res.number;
-    return *this;
-}
-
 binary_int& binary_int::operator<<=(const binary_int& num){
     number <<= num.number;
     return *this;
@@ -106,35 +103,19 @@ binary_int binary_int::operator>>(const binary_int& num) const{
 }
 
 binary_int binary_int::operator*(const binary_int &num) const {
-    binary_int sign(1);
-    binary_int num_copy = num;
-    binary_int this_copy = *this;
-    if (number < 0){
-        sign = -sign;
-        this_copy = -this_copy;
-    }
-    if (num.number < 0){
-        sign = -sign;
-        num_copy = -num_copy;
-    }
-    binary_int res;
-    while (num_copy.number != 0){
-        if (num_copy.number & 1){
-            res += this_copy;
-        }
-        this_copy <<= 1;
-        num_copy >>= 1;
-    }
-    if (sign.number < 0){
-        res = -res;
-    }
+    binary_int res(*this);
+    res *= num;
     return res;
-
-
 }
 
 binary_int &binary_int::operator*=(const binary_int &num) {
-    *this = *this * num;
+    binary_int a(*this);
+    number = 0;
+    for (binary_int i(0); i.number < sizeof(int) * 8; ++i){
+        if (num.number & (1 << i.number)){
+            *this += a << i;
+        }
+    }
     return *this;
 }
 
