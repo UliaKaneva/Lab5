@@ -121,9 +121,9 @@ binary_int &binary_int::operator*=(const binary_int &num) {
 
 std::ostream& operator<<(std::ostream& stream, const binary_int& number)
 {
-    binary_int size(8 * sizeof(int));
+    binary_int size(sizeof(int) << 3);
     size -= binary_int(1);
-    int num[8 * sizeof(int)];
+    int num[sizeof(int) << 3];
     for (binary_int i(0); i.number < sizeof(int) << 3; ++i){
         num[(size - i).number] = ((1 << i.number) & number.number) != 0;
     }
