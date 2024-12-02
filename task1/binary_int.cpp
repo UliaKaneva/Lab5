@@ -111,7 +111,7 @@ binary_int binary_int::operator*(const binary_int &num) const {
 binary_int &binary_int::operator*=(const binary_int &num) {
     binary_int a(*this);
     number = 0;
-    for (binary_int i(0); i.number < sizeof(int) * 8; ++i){
+    for (binary_int i(0); i.number < sizeof(int) << 3; ++i){
         if (num.number & (1 << i.number)){
             *this += a << i;
         }
@@ -124,10 +124,10 @@ std::ostream& operator<<(std::ostream& stream, const binary_int& number)
     binary_int size(8 * sizeof(int));
     size -= binary_int(1);
     int num[8 * sizeof(int)];
-    for (binary_int i(0); i.number < 8 * sizeof(int); ++i){
+    for (binary_int i(0); i.number < sizeof(int) << 3; ++i){
         num[(size - i).number] = ((1 << i.number) & number.number) != 0;
     }
-     for (binary_int i(0); i.number < 8 * sizeof(int); ++i){
+     for (binary_int i(0); i.number < sizeof(int) << 3; ++i){
          stream << num[i.number];
      }
     return stream;
@@ -135,7 +135,7 @@ std::ostream& operator<<(std::ostream& stream, const binary_int& number)
 
 }
 std::pair<binary_int, binary_int> binary_int::split_bits() const {
-    binary_int half_bits = 1 << sizeof(int) * 4;
+    binary_int half_bits = 1 << (sizeof(int) << 2);
     --half_bits;
     binary_int high_bits(this->number & (~half_bits.number));
     binary_int low_bits(this->number & half_bits.number);
