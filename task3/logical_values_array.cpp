@@ -63,12 +63,12 @@ logical_values_array logical_values_array::equivalence(const logical_values_arra
 }
 
 logical_values_array logical_values_array::pierce_arrow(const logical_values_array &num) const {
-    logical_values_array res = this->inversion().disjunction(num.inversion());
+    logical_values_array res = this->disjunction(num).inversion();
     return res;
 }
 
 logical_values_array logical_values_array::schaeffer_stroke(const logical_values_array &num) const {
-    logical_values_array res = this->inversion().conjunction(num.inversion());
+    logical_values_array res = this->conjunction(num).inversion();
     return res;
 }
 
