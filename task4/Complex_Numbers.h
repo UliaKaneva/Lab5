@@ -5,10 +5,9 @@
 #include <iostream>
 
 class Complex_Numbers {
-public:
     double real;
     double imaginary;
-
+public:
     Complex_Numbers();
 
     Complex_Numbers(double r, double i);
@@ -29,8 +28,9 @@ public:
 
     [[nodiscard]] double argument() const;
 
+    friend std::ostream &operator<<(std::ostream &stream, Complex_Numbers &num);
+
 };
 
-std::ostream &operator<<(std::ostream &stream, Complex_Numbers &num);
 
 #endif //LAB5_COMPLEX_NUMBERS_H
